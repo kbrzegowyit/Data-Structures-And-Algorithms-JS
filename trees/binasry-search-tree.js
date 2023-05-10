@@ -152,6 +152,38 @@ class BST {
         for (let level = 0; level <= height; level++) 
             printLevel(currNode, level);
     }
+
+    isBst = (currNode = this.root) => {
+        if (!currNode) return true;
+
+        if (currNode.left != null && this.maxValue(currNode.left) >= currNode.value) {
+            return false;
+        }
+
+        if (currNode.right != null && this.minValue(currNode.right) <= currNode.value) {
+            return false;
+        }
+
+        if (!this.isBst(currNode.left) || !this.isBst(currNode.right)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    maxValue = (currNode) => {
+        if (!currNode) return Number.MIN_SAFE_INTEGER;
+        const left = this.maxValue(currNode.left);
+        const right = this.maxValue(currNode.right);
+        return Math.max(currNode.value, Math.max(left, right));
+    }
+
+    minValue = (currNode) => {
+        if (!currNode) return Number.MAX_SAFE_INTEGER;
+        const left = this.minValue(currNode.left);
+        const right = this.minValue(currNode.right);
+        return Math.min(currNode.value, Math.min(left, right));
+    }
 }
 
 const bst = new BST();
@@ -163,5 +195,6 @@ bst.add(5);
 bst.add(4);
 
 (() => {
-    bst.levelOrderTraversal()
+    const isBst = bst.isBst();
+    console.log(isBst);
 })();
