@@ -1,5 +1,7 @@
 const arr = [1,23,7,3,2,4];
 
+// First approach
+
 // function countingSort(arr) {
 //     //find max value
 //     let maxValue = arr[0];
