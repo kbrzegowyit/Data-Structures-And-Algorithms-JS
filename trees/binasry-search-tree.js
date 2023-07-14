@@ -78,6 +78,32 @@ class BST {
         if (currNode.right) return this.getMinNode(currNode.right)
     }
 
+    deleteNodeV2 = (value, currNode = this.root) => {
+        if (!currNode) return;
+
+        if (value < currNode.value) currNode.left = this.deleteNode(value, currNode.left);
+        
+        if (value > currNode.value) currNode.right = this.deleteNode(value, currNode.right);
+
+        if (value === currNode.value) {
+            if (!currNode.left) return currNode.right;
+            if (!currNode.right) return currNode.left;
+
+            currNode.value = this.getMinNodeV2(currNode.right).value;
+            currNode.right = this.deleteNodeV2(currNode.value, currNode.right);
+        }
+
+        return currNode;
+    }
+
+    getMinNodeV2 = (currNode = this.root) => {
+        if (!currNode) return currNode;
+        
+        if (currNode.left) return this.getMinNode(currNode.left);
+        
+        return currNode;
+    }
+
     getGreaterPredecessorNode = (currNode = this.root) => {
         if (currNode.parent && currNode.parent.right === currNode) {
             return this.getGreaterPredecessorNode(currNode.parent);
@@ -193,8 +219,13 @@ bst.add(1);
 bst.add(7);
 bst.add(5);
 bst.add(4);
+bst.add(10);
+bst.add(8);
+bst.add(9);
+bst.add(12);
 
 (() => {
-    const isBst = bst.isBst();
-    console.log(isBst);
+    console.log(bst.levelOrderTraversal());
+    bst.deleteNode(7);
+    console.log(bst.levelOrderTraversal());
 })();
